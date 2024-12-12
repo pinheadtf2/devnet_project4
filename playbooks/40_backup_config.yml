@@ -1,4 +1,4 @@
-- name: Backup Router Running Ronfiguration
+- name: Backup Router Running Configuration
   hosts: routers
   gather_facts: false
   connection: network_cli
@@ -11,4 +11,19 @@
       copy:
         content: "{{ config.stdout[0] }}"
         dest: ~/router-config.txt
+      
+
+- name: Backup Switch Running Configuration
+  hosts: switches
+  gather_facts: false
+  connection: network_cli
+  tasks:
+    - name: show running config
+      ios-command:
+        commands:
+          - show run
+    - name: save running config
+      copy:
+        content: "{{ config.stdout[0] }}"
+        dest: ~/switch-config.txt
       
