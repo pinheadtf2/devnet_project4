@@ -1,0 +1,58 @@
+- name: Inter-VLAN Routing
+  hosts: routers
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: Create subinterface
+      ios_command:
+        commands:
+          - conf t
+          - interface GigabitEthernet0/0/1.20
+          - description Link to A1's office vlan
+          - encapsulation dot1q 20
+          - ip address 192.168.2.1 255.255.255.0
+          - no shutdown
+
+    - name: Show interface
+      ios_command:
+        commands: show ip int br
+      register: output
+
+    - name: print output
+      debug:
+        var: output.stdout_lines
+
+- name: VLAN and int config
+  hosts: switches
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: create VLANs
+      ios_command:
+        commands:
+          - conf t
+          - vlan 10
+          - name Management
+          - vlan 20
+          - name Office
+          - end
+
+    - name: Assign ports
+      ios_command:
+        commands:
+          - conf t
+          - int f0/24
+          - switchport mode access
+          - switchport access vlan 20
+          - end
+
+    - name: Show vlans
+      ios_command:
+        commands: show vlan br
+      register: output
+
+    - name: print output
+      debug:
+        var: output.stdout_lines

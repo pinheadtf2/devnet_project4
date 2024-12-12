@@ -4,9 +4,9 @@
   connection: network_cli
 
   tasks:
-    - name: run show version on the routers
+    - name: run show interfaces
       ios_command:
-        commands: show version | incl Version
+        commands: show ip interface brief
       register: output
 
     - name: print output
