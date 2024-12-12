@@ -1,0 +1,14 @@
+- name: Backup Router Running Ronfiguration
+  hosts: routers
+  gather_facts: false
+  connection: network_cli
+  tasks:
+    - name: show running config
+      ios-command:
+        commands:
+          - show run
+    - name: save running config
+      copy:
+        content: "{{ config.stdout[0] }}"
+        dest: ~/router-config.txt
+      
