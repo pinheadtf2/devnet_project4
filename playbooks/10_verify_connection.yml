@@ -1,0 +1,14 @@
+- name: Show versions for each device
+  hosts: switches, routers
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: run show version on the routers
+      ios_command:
+        commands: show version | incl Version
+      register: output
+
+    - name: print output
+      debug:
+        var: output.stdout_lines
