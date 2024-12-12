@@ -1,29 +1,11 @@
 - name: Backup Router Running Configuration
-  hosts: routers
+  hosts: routers, switches
   gather_facts: false
   connection: network_cli
-  tasks:
-    - name: show running config
-      ios_command:
-        commands:
-          - show run
-    - name: save running config
-      copy:
-        content: "{{ config.stdout[0] }}"
-        dest: ~/router-config.txt
-      
 
-- name: Backup Switch Running Configuration
-  hosts: switches
-  gather_facts: false
-  connection: network_cli
   tasks:
-    - name: show running config
-      ios_command:
-        commands:
-          - show run
-    - name: save running config
-      copy:
-        content: "{{ config.stdout[0] }}"
-        dest: ~/switch-config.txt
-      
+    - name: Backup running config
+      ios_config:
+        backup: true
+        backup_options:
+          dir_path: /home/pinhead/devnet/project4
