@@ -1,5 +1,5 @@
 - name: VLAN configuration
-  hosts: switch
+  hosts: switchs
   gather_facts: false
   connection: network_cli
   tasks:
