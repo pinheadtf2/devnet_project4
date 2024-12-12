@@ -1,0 +1,459 @@
+Microsoft Windows [Version 10.0.22621.4602]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\CarletonMaxwell>wsl
+pinhead@nexon:/mnt/c/Users/CarletonMaxwell$ cd
+pinhead@nexon:~$ ls
+devnet
+pinhead@nexon:~$ cd devnet/project4/
+pinhead@nexon:~/devnet/project4$ source .venv/bin/activate
+(.venv) pinhead@nexon:~/devnet/project4$ ansible-playbook playbooks/10_verify_connection.yml
+
+PLAY [Show versions for each device] ***********************************************************************************
+
+TASK [run show interfaces] *********************************************************************************************
+ok: [router-r1]
+ok: [switch-a1]
+
+TASK [print output] ****************************************************************************************************
+ok: [switch-a1] => {
+    "output.stdout_lines": [
+        [
+            "Interface              IP-Address      OK? Method Status                Protocol",
+            "Vlan1                  unassigned      YES unset  up                    up      ",
+            "Vlan10                 192.168.1.10    YES manual up                    up      ",
+            "FastEthernet0/1        unassigned      YES unset  up                    up      ",
+            "FastEthernet0/2        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/3        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/4        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/5        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/6        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/7        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/8        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/9        unassigned      YES unset  down                  down    ",
+            "FastEthernet0/10       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/11       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/12       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/13       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/14       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/15       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/16       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/17       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/18       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/19       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/20       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/21       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/22       unassigned      YES unset  down                  down    ",
+            "FastEthernet0/23       unassigned      YES unset  up                    up      ",
+            "FastEthernet0/24       unassigned      YES unset  up                    up      ",
+            "GigabitEthernet0/1     unassigned      YES unset  down                  down    ",
+            "GigabitEthernet0/2     unassigned      YES unset  down                  down"
+        ]
+    ]
+}
+ok: [router-r1] => {
+    "output.stdout_lines": [
+        [
+            "Any interface listed with OK? value \"NO\" does not have a valid configuration",
+            "",
+            "Interface              IP-Address      OK? Method Status                Protocol",
+            "GigabitEthernet0/0/0   unassigned      YES unset  administratively down down    ",
+            "GigabitEthernet0/0/1   unassigned      YES unset  up                    up      ",
+            "Gi0/0/1.10             192.168.1.1     YES manual up                    up      ",
+            "GigabitEthernet0/0/2   unassigned      YES unset  administratively down down    ",
+            "Serial0/1/0            unassigned      NO  unset  down                  down    ",
+            "Serial0/1/1            unassigned      NO  unset  down                  down    ",
+            "GigabitEthernet0       unassigned      YES unset  administratively down down"
+        ]
+    ]
+}
+
+PLAY RECAP *************************************************************************************************************
+router-r1                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+switch-a1                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+(.venv) pinhead@nexon:~/devnet/project4$ ls
+ansible.cfg  basicconfig.txt  documentation  inventory.ini  main.py  playbooks
+(.venv) pinhead@nexon:~/devnet/project4$ ls playbooks/
+10_verify_connection.yml  20_add_vlan.yml  30_backup_config.yml
+(.venv) pinhead@nexon:~/devnet/project4$ ansible-playbook playbooks/20_add_vlan.yml
+
+PLAY [Inter-VLAN Routing] **********************************************************************************************************************************
+
+TASK [Create subinterface] *********************************************************************************************************************************
+ok: [router-r1]
+
+TASK [Show interface] **************************************************************************************************************************************
+ok: [router-r1]
+
+TASK [print output] ****************************************************************************************************************************************
+ok: [router-r1] => {
+    "output.stdout_lines": [
+        [
+            "Any interface listed with OK? value \"NO\" does not have a valid configuration",
+            "",
+            "Interface              IP-Address      OK? Method Status                Protocol",
+            "GigabitEthernet0/0/0   unassigned      YES unset  administratively down down    ",
+            "GigabitEthernet0/0/1   unassigned      YES unset  up                    up      ",
+            "Gi0/0/1.10             192.168.1.1     YES manual up                    up      ",
+            "Gi0/0/1.20             192.168.2.1     YES manual up                    up      ",
+            "GigabitEthernet0/0/2   unassigned      YES unset  administratively down down    ",
+            "Serial0/1/0            unassigned      NO  unset  down                  down    ",
+            "Serial0/1/1            unassigned      NO  unset  down                  down    ",
+            "GigabitEthernet0       unassigned      YES unset  administratively down down"
+        ]
+    ]
+}
+
+PLAY [VLAN and int config] *********************************************************************************************************************************
+
+TASK [create VLANs] ****************************************************************************************************************************************
+ok: [switch-a1]
+
+TASK [Assign ports] ****************************************************************************************************************************************
+ok: [switch-a1]
+
+TASK [Show vlans] ******************************************************************************************************************************************
+ok: [switch-a1]
+
+TASK [print output] ****************************************************************************************************************************************
+ok: [switch-a1] => {
+    "output.stdout_lines": [
+        [
+            "VLAN Name                             Status    Ports",
+            "---- -------------------------------- --------- -------------------------------",
+            "1    default                          active    Fa0/2, Fa0/3, Fa0/4, Fa0/5, Fa0/6, Fa0/7, Fa0/8, Fa0/9, Fa0/10, Fa0/11, Fa0/12, Fa0/13, Fa0/14, Fa0/15, Fa0/16, Fa0/17, Fa0/18, Fa0/19, Fa0/20, Fa0/21, Fa0/22, Gi0/1, Gi0/2",
+            "10   Management                       active    Fa0/23",
+            "20   Office                           active    Fa0/24",
+            "1002 fddi-default                     act/unsup ",
+            "1003 token-ring-default               act/unsup ",
+            "1004 fddinet-default                  act/unsup ",
+            "1005 trnet-default                    act/unsup"
+        ]
+    ]
+}
+
+PLAY RECAP *************************************************************************************************************************************************
+router-r1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+switch-a1                  : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+(.venv) pinhead@nexon:~/devnet/project4$ ansible-playbook playbooks/30_backup_config.yml
+
+PLAY [Backup Router Running Configuration] *****************************************************************************************************************
+
+TASK [Backup running config] *******************************************************************************************************************************
+changed: [router-r1]
+changed: [switch-a1]
+
+PLAY RECAP *************************************************************************************************************************************************
+router-r1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+switch-a1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+(.venv) pinhead@nexon:~/devnet/project4$ ls
+ansible.cfg  basicconfig.txt  documentation  inventory.ini  main.py  playbooks  router-r1_config.2024-12-12@16:20:17  switch-a1_config.2024-12-12@16:20:18
+(.venv) pinhead@nexon:~/devnet/project4$ cat router-r1_config.2024-12-12@16\:20\:17
+Building configuration...
+
+
+Current configuration : 2147 bytes
+!
+! Last configuration change at 23:56:52 UTC Tue Mar 10 2020 by admin
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+no aaa new-model
+!
+no ip domain lookup
+ip domain name lab.pinhead.dev
+ip dhcp excluded-address 192.168.1.1 192.168.1.20
+!
+ip dhcp pool LAN
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ domain-name lab.pinhead.dev
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+license udi pid ISR4331/K9 sn FLM24050CQD
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+username admin privilege 15 password 0 Admin123!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet0/0/1.10
+ description Link to A1
+ encapsulation dot1Q 10
+ ip address 192.168.1.1 255.255.255.0
+!
+interface GigabitEthernet0/0/1.20
+ description Link to A1's office vlan
+ encapsulation dot1Q 20
+ ip address 192.168.2.1 255.255.255.0
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface Serial0/1/0
+!
+interface Serial0/1/1
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ shutdown
+ negotiation auto
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip tftp source-interface GigabitEthernet0
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input ssh
+!
+wsma agent exec
+!
+wsma agent config
+!
+wsma agent filesys
+!
+wsma agent notify
+!
+!
+end(.venv) pinhead@nexon:~/devnet/project4$ ls
+ansible.cfg  basicconfig.txt  documentation  inventory.ini  main.py  playbooks  router-r1_config.2024-12-12@16:20:17  switch-a1_config.2024-12-12@16:20:18
+(.venv) pinhead@nexon:~/devnet/project4$ cat switch-a1_config.2024-12-12@16\:20\:18
+Building configuration...
+
+Current configuration : 1800 bytes
+!
+! Last configuration change at 00:03:53 UTC Mon Mar 1 1993 by admin
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname A1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username admin privilege 15 password 0 Admin123!
+no aaa new-model
+system mtu routing 1530
+!
+!
+no ip domain-lookup
+ip domain-name lab.pinhead.dev
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport mode trunk
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/24
+ switchport access vlan 20
+ switchport mode access
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ ip address 192.168.1.10 255.255.255.0
+!
+ip default-gateway 192.168.1.1
+ip http server
+ip http secure-server
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input ssh
+!
+end(.venv) pinhead@nexon:~/devnet/projectk to A1's office vlanlan
+ encapsulation dot1Q 20
+ ip address 192.168.2.1 255.255.255.0
+>
+> ^C
+(.venv) pinhead@nexon:~/devnet/project4$
