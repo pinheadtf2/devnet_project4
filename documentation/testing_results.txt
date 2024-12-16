@@ -1,10 +1,7 @@
 Microsoft Windows [Version 10.0.22621.4602]
 (c) Microsoft Corporation. All rights reserved.
 
-C:\Users\CarletonMaxwell>wsl
-pinhead@nexon:/mnt/c/Users/CarletonMaxwell$ cd
-pinhead@nexon:~$ ls
-devnet
+C:\Users\pinhead>wsl
 pinhead@nexon:~$ cd devnet/project4/
 pinhead@nexon:~/devnet/project4$ source .venv/bin/activate
 (.venv) pinhead@nexon:~/devnet/project4$ ansible-playbook playbooks/10_verify_connection.yml
@@ -451,9 +448,5 @@ line vty 5 15
  login local
  transport input ssh
 !
-end(.venv) pinhead@nexon:~/devnet/projectk to A1's office vlanlan
- encapsulation dot1Q 20
- ip address 192.168.2.1 255.255.255.0
->
-> ^C
+end
 (.venv) pinhead@nexon:~/devnet/project4$

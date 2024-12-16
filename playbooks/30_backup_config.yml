@@ -8,4 +8,4 @@
       ios_config:
         backup: true
         backup_options:
-          dir_path: /home/pinhead/devnet/project4
+          dir_path: /home/pinhead/devnet/project4/backups
